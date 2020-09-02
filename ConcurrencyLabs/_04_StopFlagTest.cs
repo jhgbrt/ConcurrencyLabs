@@ -1,16 +1,16 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 
 namespace ConcurrencyLabs
 {
 
-    [TestClass]
     public class _04_StopFlagTest
     {
         private static bool _stopping;
 
-        [TestMethod]
+        [Fact]
         public void __04__WhenStopFlagIsSet_OtherThreadShouldStop()
         {
             _stopping = false;
@@ -25,7 +25,7 @@ namespace ConcurrencyLabs
             Task.Delay(TimeSpan.FromMilliseconds(500)).Wait();
 
             // why does this test fail? How to fix it?
-            Assert.IsTrue(work.IsCompleted, "DoWork did not stop");
+            Assert.True(work.IsCompleted, "DoWork did not stop");
         }
 
 

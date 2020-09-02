@@ -2,17 +2,16 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 
 namespace ConcurrencyLabs
 {
-    [TestClass]
     public class _02_ReaderWriterTest
     {
         private static long s_x;
         private static readonly long _max = long.MaxValue;
 
-        [TestMethod]
+        [Fact]
         public void __02__Value_WhenWrittenFromOneThread_And_ReadFromAnotherThread_ShouldAlwaysBeTheSame()
         {
             s_x = 0;
@@ -30,9 +29,9 @@ namespace ConcurrencyLabs
             Task.Delay(TimeSpan.FromSeconds(1)).Wait();
 
             if (taskA.IsFaulted)
-                Assert.Fail(taskA.Exception.Flatten().InnerExceptions.First().Message);
+                throw taskA.Exception.Flatten().InnerExceptions.First();
             if (taskB.IsFaulted)
-                Assert.Fail(taskB.Exception.Flatten().InnerExceptions.First().Message);
+                throw taskB.Exception.Flatten().InnerExceptions.First();
 
             // cancel any tasks still running
             cts.Cancel();
@@ -43,7 +42,8 @@ namespace ConcurrencyLabs
             int i = 0;
             while (true)
             {
-                s_x = (i & 1) == 0 ? 0x0L : _max;
+                var r = (i & 1) == 0 ? 0x0L : _max;
+                s_x = r;
 
                 i++;
             }

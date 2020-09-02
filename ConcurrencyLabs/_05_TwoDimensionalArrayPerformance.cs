@@ -1,17 +1,16 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 
 namespace ConcurrencyLabs
 {
-    [TestClass]
     public class _05_TwoDimensionalArrayPerformance
     {
         static int dimension = 10000;
         static int[,] matrix = new int[dimension, dimension];
 
-        [TestMethod]
+        [Fact]
         public void __05__Traversing_a_TwoDimensionalArray_ShouldBeFast()
         {
             var sw = Stopwatch.StartNew();
@@ -32,7 +31,7 @@ namespace ConcurrencyLabs
 
             // When this test is run for the first time, it will write a benchmark to disk
             // Subsequently, the test will only succeed if you can improve the code under test above
-            // by a factor of at least 5
+            // by a factor of at least 3 (check the timings; YMMV)
 
             Console.WriteLine(elapsed);
             string benchmark = "benchmark";
@@ -40,13 +39,12 @@ namespace ConcurrencyLabs
             if (!File.Exists(benchmark))
             {
                 File.WriteAllText(benchmark, elapsed.Ticks.ToString());
-                Assert.Fail("benchmark has been written; modify the code to improve performance x5");
+                throw new Exception("benchmark has been written; modify the code to improve performance x5");
             }
             else
             {
                 var ticks = Convert.ToInt64(File.ReadAllText(benchmark));
-                Console.WriteLine("benchmark: {0}", TimeSpan.FromTicks(ticks));
-                Assert.IsTrue(elapsed.Ticks < ticks / 5);
+                Assert.True(elapsed.Ticks < ticks / 3, $"benchmark: {TimeSpan.FromTicks(ticks)} - elapsed: {elapsed}");
             }
         }
 

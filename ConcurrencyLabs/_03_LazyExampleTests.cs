@@ -2,7 +2,7 @@
 using System.Collections.Concurrent;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 
 namespace ConcurrencyLabs
 {
@@ -26,17 +26,17 @@ namespace ConcurrencyLabs
     }
 
 
-    [TestClass]
     public class _03_LazyExampleTests
     {
-        [TestMethod]
+        [Fact]
         public void __03__GetInt_WhenCalledFromMultipleThreads_ShouldAlwaysReturnSameValue()
         {
-            for (int i = 0; i < 1000000; i++)
-                DoTest();
+            const int max = 100000; // if this test does not systematically fail, increase this value with an order of magnitude
+            for (int i = 0; i < max; i++)
+                DoTest(i);
         }
 
-        private static void DoTest()
+        private static void DoTest(int n)
         {
             var lazy = new LazyExample();
 
@@ -58,7 +58,7 @@ namespace ConcurrencyLabs
             // How SHOULD you fix it?
             if (results.Any(i => i != 42))
             {
-                var message = string.Format("FAILED: {0}", string.Join(",", results));
+                var message = string.Format($"FAILED after {n} times: {0}", string.Join(",", results));
                 throw new Exception(message);
             }
         }

@@ -5,3 +5,4 @@
 /ConcurrencyLabs/bin
 /ConcurrencyLabs/obj
 *.suo
+/.vs

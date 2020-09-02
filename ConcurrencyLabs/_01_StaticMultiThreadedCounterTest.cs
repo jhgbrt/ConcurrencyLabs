@@ -1,17 +1,16 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 
 namespace ConcurrencyLabs
 {
-    [TestClass]
     public class _01_StaticMultiThreadedCounterTest
     {
         private const int max = 10000000;
         private static int counter;
 
-        [TestMethod]
+        [Fact]
         public void __01__Counter_WhenIncrementedSameAmountFromTwoThreads_ShouldResultInTwiceTheCount()
         {
             counter = 0;
@@ -22,12 +21,9 @@ namespace ConcurrencyLabs
             var t2 = Task.Run((Action) count);
             Task.WaitAll(t1, t2);
             
-            Logger.WriteLine(string.Format("result = {0}, took {1} ms", counter, sw.ElapsedMilliseconds));
-            Logger.WriteLine(counter);
-
             // the expectation is that the counter ends up at a value of 2* max
             // why does this test fail? how can you correct it?
-            Assert.AreEqual(2*max, counter);
+            Assert.Equal(2*max, counter);
         }
 
         static void count()
