@@ -8,7 +8,7 @@ namespace ConcurrencyLabs
 
     public class _04_StopFlagTest
     {
-        private static bool _stopping;
+        private static volatile bool _stopping;
 
         [Fact]
         public void __04__WhenStopFlagIsSet_OtherThreadShouldStop()

@@ -43,7 +43,7 @@ namespace ConcurrencyLabs
             while (true)
             {
                 var r = (i & 1) == 0 ? 0x0L : _max;
-                s_x = r;
+                Interlocked.Exchange(ref s_x, r);
 
                 i++;
             }
@@ -52,7 +52,7 @@ namespace ConcurrencyLabs
         {
             while (true)
             {
-                long x = s_x;
+                long x = Interlocked.Read(ref s_x);
                 if (x != 0x0L && x != _max)
                 {
                     throw new Exception(string.Format("!! x = {0} ", Convert.ToString(x, 2).PadLeft(64, '0')));

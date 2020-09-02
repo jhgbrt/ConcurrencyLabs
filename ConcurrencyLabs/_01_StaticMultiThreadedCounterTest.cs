@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -29,7 +30,7 @@ namespace ConcurrencyLabs
         static void count()
         {
             for (int i = 0; i < max; i++)
-                counter++;
+                Interlocked.Increment(ref counter);
         }
 
     }

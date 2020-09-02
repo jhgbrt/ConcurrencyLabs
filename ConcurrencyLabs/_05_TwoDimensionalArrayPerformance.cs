@@ -17,9 +17,9 @@ namespace ConcurrencyLabs
 
             // CODE UNDER TEST -->
 
-            for (int column = 0; column < dimension; column++)
+            for (int row = 0; row < dimension; row++)
             {
-                for (int row = 0; row < dimension; row++)
+                for (int column = 0; column < dimension; column++)
                 {
                     matrix[row, column] = row * column;
                 }

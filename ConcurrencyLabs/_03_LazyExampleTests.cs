@@ -9,7 +9,7 @@ namespace ConcurrencyLabs
     class LazyExample
     {
         private int _value;
-        private bool _initialized;
+        private volatile bool _initialized;
         public int GetInt()
         {
             // extra reads to get _value
